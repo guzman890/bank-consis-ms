@@ -1,12 +1,8 @@
 package com.consis.bank.service.impl;
 
 import com.consis.bank.exception.EntityNotFoundException;
-import com.consis.bank.model.dto.AccountStatementDTO;
 import com.consis.bank.model.dto.TransactionDTO;
-import com.consis.bank.model.entity.Account;
-import com.consis.bank.model.entity.Transaction;
 import com.consis.bank.model.enums.TransactionType;
-import com.consis.bank.repository.AccountRepository;
 import com.consis.bank.service.mapper.TransactionMapper;
 import com.consis.bank.repository.TransactionRepository;
 import com.consis.bank.service.TransactionService;
@@ -14,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,14 +44,14 @@ public class TransactionServiceImpl implements TransactionService {
                 .map(existingTransaction -> TransactionMapper.toEntity(transactionDTO))
                 .map(transactionRepository::save)
                 .map(TransactionMapper::toDTO)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Transaction not found"));
     }
 
     @Override
     public TransactionDTO findById(Long id) {
         return transactionRepository.findById(id)
                 .map(TransactionMapper::toDTO)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Transaction not found"));
     }
 
     @Override

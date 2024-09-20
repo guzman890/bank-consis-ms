@@ -44,7 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO findById(Long id) {
         return customerRepository.findById(id)
                 .map(CustomerMapper::toDTO)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
     }
 
     @Override
