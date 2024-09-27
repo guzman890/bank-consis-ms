@@ -2,6 +2,7 @@ package com.consis.bank.business;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.consis.bank.exception.ExcedLimit;
 import com.consis.bank.model.dto.AccountDTO;
 import com.consis.bank.model.dto.TransactionDTO;
 import com.consis.bank.model.enums.AccountStatus;
@@ -152,6 +153,6 @@ class TransactionExecuteServiceTest {
         when(transactionService.findAllByAccountIdAndTransactionTypeAndDate(1L, TransactionType.DEBIT, LocalDate.now()))
                 .thenReturn(Collections.singletonList(transactionDTO));
 
-        assertThrows(IllegalArgumentException.class, () -> transactionExecuteService.validateDailyWithdrawalLimit(1L, transactionDTO));
+        assertThrows(ExcedLimit.class, () -> transactionExecuteService.validateDailyWithdrawalLimit(1L, transactionDTO));
     }
 }

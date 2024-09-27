@@ -1,5 +1,6 @@
 package com.consis.bank.business;
 
+import com.consis.bank.exception.ExcedLimit;
 import com.consis.bank.model.dto.AccountDTO;
 import com.consis.bank.model.dto.TransactionDTO;
 import com.consis.bank.model.enums.TransactionType;
@@ -46,7 +47,8 @@ public class TransactionExecuteService {
     }
 
     public void validateBalance(AccountDTO account, TransactionDTO transactionDTO) {
-        if (TransactionType.DEBIT.equals(transactionDTO.getTransactionType()) && account.getInitialBalance() == 0) {
+        if (TransactionType.DEBIT.equals(transactionDTO.getTransactionType())
+                && (account.getInitialBalance() - transactionDTO.getAmount()) < 0) {
             throw new IllegalArgumentException("Saldo no disponible");
         }
     }
@@ -60,7 +62,7 @@ public class TransactionExecuteService {
 
         if (TransactionType.DEBIT.equals(transactionDTO.getTransactionType()) &&
                 (totalDebitsToday + transactionDTO.getAmount() > DAILY_WITHDRAWAL_LIMIT)) {
-            throw new IllegalArgumentException("Límite diario de retiro excedido");
+            throw new ExcedLimit("Límite diario de retiro excedido");
         }
     }
 }
